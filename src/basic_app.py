@@ -12,5 +12,8 @@ def plot_map() -> None:
     streamlit.map(map_data)
 
 
+def sidebar():
+
+
 if __name__ == "__main__":
     plot_map()
