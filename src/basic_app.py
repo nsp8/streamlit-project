@@ -9,29 +9,37 @@ class MapDashboard:
         num_points: int = 1000,
         lat_min: int = 7,
         lat_max: int = 85,
-        lon_min: int = -20,
-        lon_max: int = -179,
+        lon_min: int = -179,
+        lon_max: int = -20,
     ):
-        self.error = False
+        self.error_message = ""
+        self.lat_choice = lat_min
+        self.lon_choice = lon_min
         try:
+            streamlit.sidebar.markdown("## ⚙ Settings")
             self.lat_sidebar: tuple = streamlit.sidebar.slider(
                 "Latitude", lat_min, lat_max, (lat_min, lat_max)
             )
             self.lon_sidebar: tuple = streamlit.sidebar.slider(
                 "Longitude", lon_min, lon_max, (lon_min, lon_max)
             )
-            self.data = self.get_data(num_points, self.lat_sidebar, self.lon_sidebar)
+            self.data = self.get_data(
+                num_points, self.lat_sidebar, self.lon_sidebar
+            )
         except ValueError:
-            streamlit.write("Invalid range selected!")
-            self.error = True
+            self.error_message = "Invalid range selected!"
+        else:
+            if self.error_message == "":
+                streamlit.markdown("# Plotting points on the 🌎")
+                streamlit.markdown(
+                    f"> Coordinates of randomly generated points around: `({self.lat_choice}, {self.lon_choice})`"
+                )
 
-    @staticmethod
-    def get_data(num_points: int, lat_range: tuple, lon_range: tuple) -> DataFrame:
-        lat_choice = randint(*lat_range)
-        lon_choice = randint(*lon_range)
-        streamlit.write(f"Coordinates around: ({lat_choice}, {lon_choice})")
+    def get_data(self, num_points: int, lat_range: tuple, lon_range: tuple) -> DataFrame:
+        self.lat_choice = randint(*lat_range)
+        self.lon_choice = randint(*lon_range)
         return DataFrame(
-            randn(num_points, 2) / [50, 50] + [lat_choice, lon_choice],
+            randn(num_points, 2) / [50, 50] + [self.lat_choice, self.lon_choice],
             columns=["lat", "lon"]
         )
 
@@ -39,10 +47,8 @@ class MapDashboard:
         try:
             streamlit.map(self.data)
         except AttributeError:
-            streamlit.write("Couldn't generate data for given range.")
-        else:
-            if not self.error:
-                streamlit.write("Plotting points on the 🌎")
+            streamlit.markdown("### ⚠️ Couldn't generate data for given range.")
+            streamlit.markdown(f"> {self.error_message}")
 
 
 if __name__ == "__main__":
