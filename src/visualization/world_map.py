@@ -47,9 +47,7 @@ class MapDashboard:
         try:
             streamlit.map(self.data)
         except AttributeError:
-            streamlit.markdown("### ⚠️ Couldn't generate data for given range.")
-            streamlit.markdown(f"> {self.error_message}")
+            streamlit.error(f"### ⚠️ Couldn't generate data for given range.\n{self.error_message}")
 
 
-if __name__ == "__main__":
-    MapDashboard().show_map()
+MapDashboard().show_map()
