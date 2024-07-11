@@ -1,1 +1,1 @@
-CREDENTIALS_FILE = "admin/credentials.yaml"
+CREDENTIALS_FILE = "src/admin/credentials.yaml"
