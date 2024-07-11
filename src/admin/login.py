@@ -5,7 +5,7 @@ from uuid import uuid4
 import streamlit
 from streamlit_authenticator.utilities.hasher import Hasher
 
-from utils.components import show_header
+from utils.components import show_header, show_success_spinner
 from utils.file_io import read_config
 
 
@@ -31,13 +31,13 @@ def authenticate(username: str, password: str) -> None:
                 user_session.login_attempts = 0
                 user_session.authenticated = True
                 streamlit.session_state.logged_in = user_session.session_id
-                streamlit.toast("Login successful!", icon="✅")
+                show_success_spinner("✅", "Login successful!")
                 streamlit.rerun()
             else:
                 streamlit.session_state.user_sessions.pop(username)
-                streamlit.toast("Invalid credentials. Please try again.")
+                streamlit.warning("Invalid credentials. Please try again.")
         except KeyError:
-            streamlit.toast("Invalid credentials. Please try again.")
+            streamlit.warning("Invalid credentials. Please try again.")
         except AttributeError as e:
             streamlit.error(f"Something went horribly wrong ...{e}")
 

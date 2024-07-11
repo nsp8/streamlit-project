@@ -54,7 +54,7 @@ if streamlit.session_state.logged_in:
         }
     )
     streamlit.set_page_config(
-        page_title="Multi-page Streamlit App", page_icon="🚀"
+        page_title="Data Tool", page_icon="🚀"
     )
 else:
     pages = streamlit.navigation({"Account": [login_page]})
