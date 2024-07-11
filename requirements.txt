@@ -1,3 +1,5 @@
 numpy
 pandas
+pyyaml
 streamlit
+streamlit-authenticator
