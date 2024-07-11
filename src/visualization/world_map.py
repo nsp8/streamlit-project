@@ -2,6 +2,8 @@ from numpy.random import randint, randn
 from pandas import DataFrame
 import streamlit
 
+from utils.components import show_header
+
 
 class MapDashboard:
     def __init__(
@@ -50,4 +52,5 @@ class MapDashboard:
             streamlit.error(f"### ⚠️ Couldn't generate data for given range.\n{self.error_message}")
 
 
+show_header()
 MapDashboard().show_map()

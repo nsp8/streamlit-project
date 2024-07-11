@@ -1,5 +1,4 @@
 import streamlit
-from admin.logout import get_username_from_session
 
 if "logged_in" not in streamlit.session_state:
     streamlit.session_state.logged_in = ""
@@ -7,6 +6,7 @@ if "logged_in" not in streamlit.session_state:
 if "user_sessions" not in streamlit.session_state:
     streamlit.session_state.user_sessions = dict()
 
+from utils.user_manager import get_username_from_session
 
 login_page = streamlit.Page(
     "admin/login.py", title="Log in", icon=":material/login:"
@@ -26,7 +26,9 @@ additional_page = streamlit.Page(
 
 if streamlit.session_state.logged_in:
     account_management_pages = [logout_page]
+    user_control_page_name = "Account"
     if get_username_from_session() == "nsp8":
+        user_control_page_name = "Account Management"
         account_management_pages = [
             streamlit.Page(
                 "admin/add_user.py",
@@ -38,13 +40,17 @@ if streamlit.session_state.logged_in:
                 title="Update User",
                 icon=":material/manage_accounts:"
             ),
-            # TODO: add "delete user" page and logic when DB is integrated
+            streamlit.Page(
+                "admin/delete_user.py",
+                title="Delete User",
+                icon=":material/person_remove:"
+            ),
             logout_page
         ]
     pages = streamlit.navigation(
         {
             "Visualization": [world_map_page, additional_page],
-            "Account": account_management_pages,
+            user_control_page_name: account_management_pages,
         }
     )
     streamlit.set_page_config(

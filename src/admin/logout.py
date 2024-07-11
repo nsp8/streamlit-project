@@ -1,15 +1,9 @@
 import streamlit
 
-
-def get_username_from_session():
-    for user, session in streamlit.session_state.user_sessions.items():
-        if session.session_id == streamlit.session_state.logged_in:
-            return user
-    return None
+from utils.user_manager import get_username_from_session
 
 
 def logout():
-    # if streamlit.button("Log out"):
     try:
         username = get_username_from_session()
         streamlit.session_state.user_sessions.pop(username)

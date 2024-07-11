@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime as dt
-from pathlib import Path
 from uuid import uuid4
 
 import streamlit
 from streamlit_authenticator.utilities.hasher import Hasher
-import yaml
+
+from utils.components import show_header
+from utils.file_io import read_config
 
 
 @dataclass
@@ -18,8 +19,8 @@ class UserSession:
 
 
 def authenticate(username: str, password: str):
-    with open(Path("src/admin/credentials.yaml")) as f:
-        config = yaml.load(f, Loader=yaml.loader.SafeLoader)
+    config = read_config()
+    if config:
         users = config["credentials"]["usernames"]
         try:
             user_secret = users[username]["password"]
@@ -58,6 +59,7 @@ def add_to_session(username):
 
 
 def login():
+    show_header()
     with streamlit.form("login_form"):
         streamlit.write("Login")
         username = streamlit.text_input("Username")
