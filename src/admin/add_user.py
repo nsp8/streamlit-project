@@ -7,7 +7,8 @@ from utils.file_io import read_config, update_config
 from utils.user_manager import hash_generator
 
 
-def validate_fields(email, password, re_entered_password) -> bool:
+def validate_fields(email: str, password: str, re_entered_password: str) -> bool:
+    """Returns True for successful email and password fields, False otherwise"""
     email_pattern = r"(.*)@(gmail|outlook|hotmail|yahoo)\.(com)$"
     email_valid = password_strength = passwords_match = True
     if not re.search(email_pattern, email):
@@ -27,7 +28,8 @@ def update_credentials(
     email_address: str,
     name: str,
     hashed_password: str
-):
+) -> bool:
+    """Updates the credentials file with the user, if the user is new"""
     is_user_new = False
     config = read_config()
     if config and username not in config["credentials"]["usernames"]:
@@ -47,6 +49,7 @@ def update_credentials(
 
 
 def add_user_form():
+    """Form to add new user"""
     show_header("User management")
     with streamlit.form("new_user_form"):
         streamlit.write("Add New User")

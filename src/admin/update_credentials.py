@@ -6,6 +6,7 @@ from utils.user_manager import hash_generator
 
 
 def update_credentials():
+    """Form to update user credentials"""
     show_header("User management")
     with streamlit.form("update_user_credentials"):
         streamlit.write("Update User Credentials")

@@ -8,6 +8,7 @@ from utils.user_manager import get_username_from_session
 
 
 def delete_user():
+    """Form to delete an existing (non-admin) user"""
     show_header("User management")
     with streamlit.form("delete_user_form"):
         streamlit.write("Delete User")

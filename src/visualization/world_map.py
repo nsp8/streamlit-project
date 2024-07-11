@@ -32,12 +32,19 @@ class MapDashboard:
             self.error_message = "Invalid range selected!"
         else:
             if self.error_message == "":
-                streamlit.markdown("# Plotting points on the 🌎")
+                streamlit.markdown("## Plotting points on the 🌎")
                 streamlit.markdown(
                     f"> Coordinates of randomly generated points around: `({self.lat_choice}, {self.lon_choice})`"
                 )
 
     def get_data(self, num_points: int, lat_range: tuple, lon_range: tuple) -> DataFrame:
+        """
+        Returns a DataFrame of randomly generated latitudes and longitudes
+        :param num_points: number of points to generate
+        :param lat_range: range of latitudes
+        :param lon_range: range of longitudes
+        :return: DataFrame
+        """
         self.lat_choice = randint(*lat_range)
         self.lon_choice = randint(*lon_range)
         return DataFrame(
@@ -46,6 +53,7 @@ class MapDashboard:
         )
 
     def show_map(self) -> None:
+        """Displays the map of randomly generated points"""
         try:
             streamlit.map(self.data)
         except AttributeError:

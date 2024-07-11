@@ -4,6 +4,7 @@ from utils.user_manager import get_username_from_session
 
 
 def logout():
+    """Logout control"""
     try:
         username = get_username_from_session()
         streamlit.session_state.user_sessions.pop(username)

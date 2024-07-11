@@ -18,7 +18,8 @@ class UserSession:
     authenticated: bool = False
 
 
-def authenticate(username: str, password: str):
+def authenticate(username: str, password: str) -> None:
+    """Authenticates entered username and password"""
     config = read_config()
     if config:
         users = config["credentials"]["usernames"]
@@ -41,7 +42,8 @@ def authenticate(username: str, password: str):
             streamlit.error(f"Something went horribly wrong ...{e}")
 
 
-def add_to_session(username):
+def add_to_session(username: str) -> None:
+    """Adds UserSession object to the Streamlit session state"""
     try:
         user_sessions = streamlit.session_state.user_sessions
         if not user_sessions:
@@ -59,6 +61,7 @@ def add_to_session(username):
 
 
 def login():
+    """Form to log a user in with a username and password"""
     show_header()
     with streamlit.form("login_form"):
         streamlit.write("Login")
